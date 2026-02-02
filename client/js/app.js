@@ -5,7 +5,7 @@
  * NOTE: I'm using vanilla JS here to keep it simple as requested.
  */
 
-const API_URL = 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:5000/api';
 
 // Global state
 const state = {

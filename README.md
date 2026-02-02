@@ -1,8 +1,8 @@
-# 🚀 TaskMaster - Full Stack Task Management System
+# 🚀 SwiftTask - Full Stack Task Management System
 
 A production-quality Task Management Web Application built for a Full Stack Development Internship assessment. This project demonstrates clean architecture, responsive design, and robust API development.
 
-![TaskMaster Preview](https://via.placeholder.com/1200x600?text=TaskMaster+Dashboard+Preview)
+![SwiftTask Preview](https://via.placeholder.com/1200x600?text=SwiftTask+Dashboard+Preview)
 
 ## ✨ Features
 

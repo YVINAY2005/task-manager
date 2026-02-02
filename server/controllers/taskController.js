@@ -36,12 +36,14 @@ export const getTasks = async (req, res, next) => {
     if (sort === 'title') sortOrder = { title: 1 };
 
     // Calculate pagination skip
-    const skipCount = (parseInt(page) - 1) * parseInt(limit);
+    const pageNum = parseInt(page) || 1;
+    const limitNum = parseInt(limit) || 10;
+    const skipCount = (pageNum - 1) * limitNum;
     
     const tasks = await Task.find(query)
       .sort(sortOrder)
       .skip(skipCount)
-      .limit(parseInt(limit));
+      .limit(limitNum);
 
     const totalTasks = await Task.countDocuments(query);
 
@@ -51,9 +53,9 @@ export const getTasks = async (req, res, next) => {
       count: tasks.length,
       total: totalTasks,
       pagination: {
-        page: parseInt(page),
-        limit: parseInt(limit),
-        totalPages: Math.ceil(totalTasks / limit)
+        page: pageNum,
+        limit: limitNum,
+        totalPages: Math.ceil(totalTasks / limitNum)
       },
       data: tasks
     });
@@ -85,13 +87,18 @@ export const getTask = async (req, res, next) => {
 // @access  Private
 export const createTask = async (req, res, next) => {
   try {
-    // Add user to req.body
-    req.body.user = req.user.id;
+    const { title, description, status } = req.body;
 
-    const task = await Task.create(req.body);
+    const task = await Task.create({
+      title,
+      description,
+      status,
+      user: req.user.id
+    });
 
     res.status(201).json({ success: true, data: task });
   } catch (err) {
+    console.error('Error in createTask:', err.message);
     next(err);
   }
 };
@@ -114,6 +121,7 @@ export const updateTask = async (req, res, next) => {
 
     res.status(200).json({ success: true, data: task });
   } catch (err) {
+    console.error('Error in updateTask:', err.message);
     next(err);
   }
 };
@@ -131,6 +139,7 @@ export const deleteTask = async (req, res, next) => {
 
     res.status(200).json({ success: true, data: {} });
   } catch (err) {
+    console.error('Error in deleteTask:', err.message);
     next(err);
   }
 };
